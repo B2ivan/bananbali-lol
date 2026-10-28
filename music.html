@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bananbali - music</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <style>
+        :root {
+            --bg-pattern-tint: #1c152a;
+            --indigo-border: #f2f7f7;
+            --panel-fill: #d5dddd;
+            --orange-primary: #ed6a22;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-pattern-tint), var(--orange-primary));
+            background-attachment: fixed;
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 16px;
+        }
+
+        .header-box {
+            border: 3px solid var(--indigo-border);
+            border-radius: 8px;
+            background-color: var(--panel-fill);
+            width: fit-content;
+            max-width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        .header-box img {
+            display: block;
+            width: 480px;
+            max-width: calc(100vw - 38px);
+            height: auto;
+        }
+
+        .main-content {
+            border: 3px solid var(--indigo-border);
+            border-radius: 8px;
+            background-color: var(--panel-fill);
+            box-sizing: border-box;
+            flex: 1;
+            min-width: 0;
+            padding: 8px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .container {
+            align-items: flex-start;
+            display: flex;
+            gap: 24px;
+            margin: 24px auto;
+            max-width: 900px;
+            padding: 0 12px;
+        }
+
+        .sidebar {
+            border: 3px solid var(--indigo-border);
+            border-radius: 8px;
+            background-color: var(--panel-fill);
+            box-sizing: border-box;
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            gap: 8px;
+            padding: 8px;
+        }
+
+        .music-embeds {
+            min-height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-box">
+        <a href="index.html" aria-label="Home">
+            <img src="oneshot-banner.gif" alt="Welcome banner">
+        </a>
+    </div>
+
+    <div class="tagline-box">
+        <p></p>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a href="index.html">home</a>
+            <a href="music.html" aria-current="page">music</a>
+        </div>
+
+        <div class="main-content">
+            <h2>My Music</h2>
+            <div class="music-embeds">
+                <!-- Add SoundCloud embed players here. -->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
