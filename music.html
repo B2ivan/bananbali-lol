@@ -75,6 +75,88 @@
         .music-embeds {
             min-height: 150px;
         }
+
+        .volume-slider {
+            --slider-bg: rgb(82, 82, 82);
+            --level-color: #fff;
+            align-items: center;
+            background: var(--slider-bg);
+            border-radius: 9px;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            height: 190px;
+            justify-content: center;
+            position: fixed;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            z-index: 9999;
+        }
+
+        .volume-slider .level {
+            appearance: none;
+            background: transparent;
+            border-radius: 9px;
+            cursor: inherit;
+            height: 50px;
+            overflow: hidden;
+            position: absolute;
+            transform: rotate(270deg);
+            width: 140px;
+        }
+
+        .volume-slider .level::-webkit-slider-runnable-track {
+            background: var(--slider-bg);
+            border-radius: 9px;
+            height: 50px;
+        }
+
+        .volume-slider .level::-moz-range-track {
+            background: var(--slider-bg);
+            border-radius: 9px;
+            height: 50px;
+        }
+
+        .volume-slider .level::-webkit-slider-thumb {
+            appearance: none;
+            background: var(--level-color);
+            border: 0;
+            border-radius: 0;
+            box-shadow: -200px 0 0 200px var(--level-color);
+            height: 50px;
+            width: 0;
+        }
+
+        .volume-slider .level::-moz-range-progress {
+            background: var(--level-color);
+            height: 50px;
+        }
+
+        .volume-slider .level::-moz-range-thumb {
+            background: var(--level-color);
+            border: 0;
+            border-radius: 0;
+            height: 50px;
+            width: 0;
+        }
+
+        .volume-slider .volume-icon {
+            bottom: 2px;
+            height: 25px;
+            left: 13px;
+            pointer-events: none;
+            position: absolute;
+            width: 25px;
+        }
+
+        @media (max-width: 480px) {
+            .volume-slider {
+                right: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -97,14 +179,37 @@
         <div class="main-content">
             <h2>My Music</h2>
             <div class="music-embeds">
-                <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2429824869&color=%23ff5200&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true" title="Release Cut Meow by BananBali on SoundCloud"></iframe>
+                <iframe id="soundcloud-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2429824869&color=%23ff5200&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true" title="Release Cut Meow by BananBali on SoundCloud"></iframe>
                 <div style="font-size: 10px; color: #cccccc; line-break: anywhere; word-break: normal; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-family: Interstate, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Garuda, Verdana, Tahoma, sans-serif; font-weight: 100;">
                     <a href="https://soundcloud.com/bananbali" title="BananBali" target="_blank" style="color: #cccccc; text-decoration: none;">BananBali</a> ·
                     <a href="https://soundcloud.com/bananbali/release-cut-meow" title="Release Cut Meow" target="_blank" style="color: #cccccc; text-decoration: none;">Release Cut Meow</a>
                 </div>
             </div>
-            <h2>nobody here but us, chickens!</h2>
+            <h2>that's all for now :]</h2>
         </div>
     </div>
+    <label class="volume-slider" for="volume-level" title="SoundCloud volume">
+        <input id="volume-level" class="level" type="range" min="0" max="100" value="100" aria-label="SoundCloud volume">
+        <svg class="volume-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18.36 19.36a1 1 0 0 1-.705-1.71C19.167 16.148 20 14.142 20 12s-.833-4.148-2.345-5.65a1 1 0 1 1 1.41-1.419C20.958 6.812 22 9.322 22 12s-1.042 5.188-2.935 7.069a.997.997 0 0 1-.705.291zM15.53 16.53a.999.999 0 0 1-.703-1.711C15.572 14.082 16 13.054 16 12s-.428-2.082-1.173-2.819a1 1 0 1 1 1.406-1.422A6 6 0 0 1 18 12a6 6 0 0 1-1.767 4.241.996.996 0 0 1-.703.289zM12 22a1 1 0 0 1-.707-.293L6.586 17H4c-1.103 0-2-.897-2-2V9c0-1.103.897-2 2-2h2.586l4.707-4.707A.998.998 0 0 1 13 3v18a1 1 0 0 1-1 1z" fill="currentColor"></path>
+        </svg>
+    </label>
+    <script src="https://w.soundcloud.com/player/api.js"></script>
+    <script>
+        const soundcloudPlayer = SC.Widget(document.getElementById("soundcloud-player"));
+        const volumeSlider = document.getElementById("volume-level");
+        let soundcloudPlayerReady = false;
+
+        soundcloudPlayer.bind(SC.Widget.Events.READY, () => {
+            soundcloudPlayerReady = true;
+            soundcloudPlayer.setVolume(Number(volumeSlider.value));
+        });
+
+        volumeSlider.addEventListener("input", () => {
+            if (soundcloudPlayerReady) {
+                soundcloudPlayer.setVolume(Number(volumeSlider.value));
+            }
+        });
+    </script>
 </body>
 </html>
